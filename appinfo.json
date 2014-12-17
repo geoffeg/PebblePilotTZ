@@ -1,0 +1,25 @@
+{
+    "appKeys": {},
+    "capabilities": [
+        "location"
+    ],
+    "companyName": "geoff.gallaway@answers.com",
+    "longName": "Pilot TZ",
+    "projectType": "native",
+    "resources": {
+        "media": [
+            {
+                "file": "fonts/OSP-DIN_44.ttf",
+                "name": "FONT_OSP_DIN_44",
+                "type": "font"
+            }
+        ]
+    },
+    "shortName": "Pilot TZ",
+    "uuid": "0ac28a63-9933-4544-892f-df493859612c",
+    "versionCode": 1,
+    "versionLabel": "1.0",
+    "watchapp": {
+        "watchface": false
+    }
+}
