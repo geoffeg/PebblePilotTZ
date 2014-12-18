@@ -1,7 +1,11 @@
 {
-    "appKeys": {},
+    "appKeys": {
+        "TIMEZONEABBR": 1,
+        "TIMEZONEOFFSET": 0
+    },
     "capabilities": [
-        "location"
+        "location",
+        "configurable"
     ],
     "companyName": "geoff.gallaway@answers.com",
     "longName": "Pilot TZ",
@@ -9,8 +13,23 @@
     "resources": {
         "media": [
             {
+                "file": "fonts/visitor1.ttf",
+                "name": "FONT_VISITOR_16",
+                "type": "font"
+            },
+            {
+                "file": "fonts/visitor1.ttf",
+                "name": "FONT_VISITOR_52",
+                "type": "font"
+            },
+            {
+                "file": "fonts/visitor1.ttf",
+                "name": "FONT_VISITOR_28",
+                "type": "font"
+            },
+            {
                 "file": "fonts/OSP-DIN_44.ttf",
-                "name": "FONT_OSP_DIN_44",
+                "name": "FONT_OSP_DIN_18",
                 "type": "font"
             }
         ]
@@ -20,6 +39,6 @@
     "versionCode": 1,
     "versionLabel": "1.0",
     "watchapp": {
-        "watchface": false
+        "watchface": true
     }
 }
