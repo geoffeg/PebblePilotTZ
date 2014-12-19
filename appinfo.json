@@ -1,5 +1,7 @@
 {
     "appKeys": {
+        "METAR": 2,
+        "REQUEST_METAR": 3,
         "TIMEZONEABBR": 1,
         "TIMEZONEOFFSET": 0
     },

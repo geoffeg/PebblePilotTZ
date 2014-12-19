@@ -1,6 +1,45 @@
+var locationOptions = {
+  enableHighAccuracy: true, 
+  maximumAge: 10000, 
+  timeout: 10000
+};
+
 Pebble.addEventListener("ready", function(e) {
   returnConfigToPebble();
+  navigator.geolocation.getCurrentPosition(locationSuccess, locationError, locationOptions);
 });
+
+Pebble.addEventListener("appmessage", function(e) {
+  navigator.geolocation.getCurrentPosition(locationSuccess, locationError, locationOptions);  
+});
+
+function locationError(err) {
+  console.log("location error (" + err.code + "): " + err.message);
+}
+
+function locationSuccess(pos) {
+  console.log('lat= ' + pos.coords.latitude + ' lon= ' + pos.coords.longitude);
+  var oReq = new XMLHttpRequest();
+  oReq.onreadystatechange = function() {
+    if (oReq.readyState == 4 && oReq.status == 200) {
+        var reports = JSON.parse(oReq.responseText);
+        var metar = reports.reports[0].raw_text;
+        console.log(metar);
+        Pebble.sendAppMessage({
+          "METAR" : metar
+        }, function(e) {
+          console.log("metar sent succesfully");
+        }, function(e) {
+          console.log(e);
+        }
+      );
+    }
+  };
+  oReq.onerror = function() { console.log("ERR"); };
+ 
+  oReq.open("get", "http://api.av-wx.com/search?type=metar&geo=" + pos.coords.latitude + "," + pos.coords.longitude, true);
+  oReq.send();
+ }
 
 function returnConfigToPebble() {
  Pebble.sendAppMessage({
@@ -18,7 +57,5 @@ function getTimezoneAbbr() {
 }
 
 function TimezoneOffsetSeconds() {
-  console.log("hi!");
-  // Get the number of seconds to add to convert localtime to utc
   return new Date().getTimezoneOffset() * 60;
 }
