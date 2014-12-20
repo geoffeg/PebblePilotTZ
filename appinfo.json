@@ -14,6 +14,12 @@
     "resources": {
         "media": [
             {
+                "file": "images/av-wx watch menu image.png",
+                "menuIcon": true,
+                "name": "IMAGE_WATCH_MENU_ICON",
+                "type": "png"
+            },
+            {
                 "file": "fonts/visitor1.ttf",
                 "name": "FONT_VISITOR_16",
                 "type": "font"

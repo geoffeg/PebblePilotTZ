@@ -126,18 +126,16 @@ static void init() {
   layer_add_child(window_layer, text_layer_get_layer(utc_time_text));
 
   // Medium local date display
-  local_date_text = text_layer_create(GRect(0, 25, 144, 40));
+  local_date_text = text_layer_create(GRect(0, 24, 144, 40));
   text_layer_set_font(local_date_text, medium_font);
   text_layer_set_text_alignment(local_date_text, GTextAlignmentCenter);
   layer_add_child(window_layer, text_layer_get_layer(local_date_text));
 
   // Large local time display
-  local_time_text = text_layer_create(GRect(0, -20, 144, 60));
+  local_time_text = text_layer_create(GRect(0, -23, 144, 60));
   text_layer_set_font(local_time_text, large_font);
   text_layer_set_text_alignment(local_time_text, GTextAlignmentCenter);
   layer_add_child(window_layer, text_layer_get_layer(local_time_text));
-  
-  tick_timer_service_subscribe(SECOND_UNIT, tick_handler); 
   
   // Small METAR text display
   metar_text = text_layer_create(GRect(4, 55, 140, 90));
@@ -145,6 +143,7 @@ static void init() {
   text_layer_set_text_alignment(metar_text, GTextAlignmentLeft);
   layer_add_child(window_layer, text_layer_get_layer(metar_text));
   
+  tick_timer_service_subscribe(SECOND_UNIT, tick_handler); 
 }
 
 static void deinit() {
