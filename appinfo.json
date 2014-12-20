@@ -6,8 +6,7 @@
         "TIMEZONEOFFSET": 0
     },
     "capabilities": [
-        "location",
-        "configurable"
+        "location"
     ],
     "companyName": "geoff.gallaway@answers.com",
     "longName": "Pilot TZ",

@@ -84,8 +84,6 @@ static void inbox_received_callback(DictionaryIterator *iterator, void *context)
         snprintf(s_buffer, sizeof(s_buffer), "%i", (int)t->value->int32);
         time_offset = (int)t->value->int32;
         APP_LOG(APP_LOG_LEVEL_DEBUG, "TIMEZONEOFFSET %s", s_buffer);
-      
-//         text_layer_set_text(time_zone, s_buffer);
         break;
       case TIMEZONEABBR:
         snprintf(s_buffer, sizeof(s_buffer), "%s", t->value->cstring);
@@ -122,7 +120,7 @@ static void init() {
   GFont small_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_OSP_DIN_18));
   
   // Medium UTC time display
-  utc_time_text = text_layer_create(GRect(0, 135, 144, 35));
+  utc_time_text = text_layer_create(GRect(0, 138, 144, 35));
   text_layer_set_font(utc_time_text, medium_font);
   text_layer_set_text_alignment(utc_time_text, GTextAlignmentCenter);
   layer_add_child(window_layer, text_layer_get_layer(utc_time_text));
@@ -140,7 +138,8 @@ static void init() {
   layer_add_child(window_layer, text_layer_get_layer(local_time_text));
   
   tick_timer_service_subscribe(SECOND_UNIT, tick_handler); 
-    // Small METAR text display
+  
+  // Small METAR text display
   metar_text = text_layer_create(GRect(4, 55, 140, 90));
   text_layer_set_font(metar_text, small_font);
   text_layer_set_text_alignment(metar_text, GTextAlignmentLeft);

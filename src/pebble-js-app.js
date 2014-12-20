@@ -1,5 +1,5 @@
 var locationOptions = {
-  enableHighAccuracy: true, 
+  enableHighAccuracy: false, 
   maximumAge: 10000, 
   timeout: 10000
 };
@@ -14,17 +14,19 @@ Pebble.addEventListener("appmessage", function(e) {
 });
 
 function locationError(err) {
-  console.log("location error (" + err.code + "): " + err.message);
+  getMetar("http://api.av-wx.com/search?type=metar&ip=@detect");
 }
 
 function locationSuccess(pos) {
-  console.log('lat= ' + pos.coords.latitude + ' lon= ' + pos.coords.longitude);
+  getMetar("http://api.av-wx.com/search?type=metar&geo=" + pos.coords.latitude + "," + pos.coords.longitude);
+}
+
+function getMetar(url) {
   var oReq = new XMLHttpRequest();
   oReq.onreadystatechange = function() {
     if (oReq.readyState == 4 && oReq.status == 200) {
         var reports = JSON.parse(oReq.responseText);
         var metar = reports.reports[0].raw_text;
-        console.log(metar);
         Pebble.sendAppMessage({
           "METAR" : metar
         }, function(e) {
@@ -37,7 +39,7 @@ function locationSuccess(pos) {
   };
   oReq.onerror = function() { console.log("ERR"); };
  
-  oReq.open("get", "http://api.av-wx.com/search?type=metar&geo=" + pos.coords.latitude + "," + pos.coords.longitude, true);
+  oReq.open("get", url, true);
   oReq.send();
  }
 
