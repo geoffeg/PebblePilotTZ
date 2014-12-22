@@ -42,13 +42,7 @@ static void drawUTCTime(struct tm *tick_time) {
   text_layer_set_text(utc_time_text, s_time_buffer);
 }
 
-static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
-  drawLocalTime(tick_time);
-  drawLocalDate(tick_time);
-  drawUTCTime(tick_time);
-}
-
-void request_metar_update(void *data) {
+void request_metar_update() {
   APP_LOG(APP_LOG_LEVEL_DEBUG, "REQUESTING METAR");
   DictionaryIterator *iter;
   app_message_outbox_begin(&iter);
@@ -57,6 +51,15 @@ void request_metar_update(void *data) {
   dict_write_tuplet(iter, &value);
  
   app_message_outbox_send();
+}
+
+static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
+  drawLocalTime(tick_time);
+  drawLocalDate(tick_time);
+  drawUTCTime(tick_time);
+  if (tick_time->tm_min % 10 == 0) {
+    request_metar_update();
+  }
 }
 
 static void out_sent_handler(DictionaryIterator *sent, void *context) {
@@ -93,7 +96,6 @@ static void inbox_received_callback(DictionaryIterator *iterator, void *context)
         snprintf(s_buffer, sizeof(s_buffer), "%s", t->value->cstring);
         APP_LOG(APP_LOG_LEVEL_DEBUG, "METAR %s", s_buffer);
         text_layer_set_text(metar_text, s_buffer);
-        app_timer_register(600000, request_metar_update, NULL);
         break;
     }
 
@@ -126,7 +128,7 @@ static void init() {
   layer_add_child(window_layer, text_layer_get_layer(utc_time_text));
 
   // Medium local date display
-  local_date_text = text_layer_create(GRect(0, 24, 144, 40));
+  local_date_text = text_layer_create(GRect(1, 24, 144, 40));
   text_layer_set_font(local_date_text, medium_font);
   text_layer_set_text_alignment(local_date_text, GTextAlignmentCenter);
   layer_add_child(window_layer, text_layer_get_layer(local_date_text));
@@ -138,7 +140,7 @@ static void init() {
   layer_add_child(window_layer, text_layer_get_layer(local_time_text));
   
   // Small METAR text display
-  metar_text = text_layer_create(GRect(4, 55, 140, 90));
+  metar_text = text_layer_create(GRect(1, 55, 143, 90));
   text_layer_set_font(metar_text, small_font);
   text_layer_set_text_alignment(metar_text, GTextAlignmentLeft);
   layer_add_child(window_layer, text_layer_get_layer(metar_text));

@@ -1,5 +1,5 @@
 var locationOptions = {
-  enableHighAccuracy: false, 
+  enableHighAccuracy: true, 
   maximumAge: 10000, 
   timeout: 10000
 };
